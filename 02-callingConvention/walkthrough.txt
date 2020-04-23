@@ -29,15 +29,15 @@ end
 - saved ebp, created new frame, made space on stack
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp; bogus value for main
+0xffffd1f8  |callers'ebp | <- ebp; bogus value for main
             |------------|
-0xffffd214  |            | 
+0xffffd1f4  |            | 
             |------------|
-0xffffd210  |            |
+0xffffd1f0  |            |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | <- esp
+0xffffd1e8  |            | <- esp
             |------------|
 
 
@@ -90,15 +90,15 @@ end
 # mov [ebp-0x4], 0x2
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp; bogus value for main
+0xffffd1f8  |callers'ebp | <- ebp; bogus value for main
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  |            |
+0xffffd1f0  |            |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | <- esp
+0xffffd1e8  |            | <- esp
             |------------|
 
 
@@ -151,15 +151,15 @@ end
 # mov [ebp-0x8], 0x4
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp; bogus value for main
+0xffffd1f8  |callers'ebp | <- ebp; bogus value for main
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | <- esp
+0xffffd1e8  |            | <- esp
             |------------|
 
 
@@ -213,17 +213,17 @@ end
 # push [ebp-0x08]
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp; bogus value for main
+0xffffd1f8  |callers'ebp | <- ebp; bogus value for main
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <- esp; arg1
+0xffffd1e4  |     4      | <- esp; arg1
             |------------|
 
 
@@ -276,19 +276,19 @@ end
 # push [ebp-0x04]
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp; bogus value for main
+0xffffd1f8  |callers'ebp | <- ebp; bogus value for main
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <-  arg1
+0xffffd1e4  |     4      | <-  arg1
             |------------|
-0xffffd200  |     2      | <- esp; arg0
+0xffffd1e0  |     2      | <- esp; arg0
             |------------|
 
 
@@ -343,21 +343,21 @@ end
 # call foo
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp; bogus value for main
+0xffffd1f8  |callers'ebp | <- ebp; bogus value for main
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <-  arg1
+0xffffd1e4  |     4      | <-  arg1
             |------------|
-0xffffd200  |     2      | <-  arg0
+0xffffd1e0  |     2      | <-  arg0
             |------------|
-0xffffd1fc  |return addr | <- esp; points to the next instruction in main
+0xffffd1dc  |return addr | <- esp; points to the next instruction in main
             |------------|
 
 
@@ -411,23 +411,23 @@ end
 # push ebp
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp; bogus value for main
+0xffffd1f8  |callers'ebp | <- ebp; bogus value for main
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <- arg1
+0xffffd1e4  |     4      | <- arg1
             |------------|
-0xffffd200  |     2      | <- arg0
+0xffffd1e0  |     2      | <- arg0
             |------------|
-0xffffd1fc  |return addr | <- points to the next instruction in main
+0xffffd1dc  |return addr | <- points to the next instruction in main
             |------------|
-0xffffd1f8  | main's ebp | <- esp
+0xffffd1d8  | main's ebp | <- esp
             |------------|
 
 
@@ -480,23 +480,23 @@ end
 # mov ebp, esp
 
             /------------\
-0xffffd218  |callers'ebp | 
+0xffffd1f8  |callers'ebp | 
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <- arg1
+0xffffd1e4  |     4      | <- arg1
             |------------|
-0xffffd200  |     2      | <- arg0
+0xffffd1e0  |     2      | <- arg0
             |------------|
-0xffffd1fc  |return addr | <- points to the next instruction in main
+0xffffd1dc  |return addr | <- points to the next instruction in main
             |------------|
-0xffffd1f8  | main's ebp | <- ebp, esp
+0xffffd1d8  | main's ebp | <- ebp, esp
             |------------|
 
 
@@ -553,23 +553,23 @@ end
 - edx now contains arg1 (4)
 
             /------------\
-0xffffd218  |callers'ebp | 
+0xffffd1f8  |callers'ebp | 
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <- arg1
+0xffffd1e4  |     4      | <- arg1
             |------------|
-0xffffd200  |     2      | <- arg0
+0xffffd1e0  |     2      | <- arg0
             |------------|
-0xffffd1fc  |return addr | <- points to the next instruction in main
+0xffffd1dc  |return addr | <- points to the next instruction in main
             |------------|
-0xffffd1f8  | main's ebp | <- ebp, esp
+0xffffd1d8  | main's ebp | <- ebp, esp
             |------------|
 
 
@@ -626,23 +626,23 @@ end
 - eax now contains arg0 (2)
 
             /------------\
-0xffffd218  |callers'ebp | 
+0xffffd1f8  |callers'ebp | 
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <- arg1
+0xffffd1e4  |     4      | <- arg1
             |------------|
-0xffffd200  |     2      | <- arg0
+0xffffd1e0  |     2      | <- arg0
             |------------|
-0xffffd1fc  |return addr | <- points to the next instruction in main
+0xffffd1dc  |return addr | <- points to the next instruction in main
             |------------|
-0xffffd1f8  | main's ebp | <- ebp, esp
+0xffffd1d8  | main's ebp | <- ebp, esp
             |------------|
 
 
@@ -699,23 +699,23 @@ end
 - eax now contains eax+edx (6)
 
             /------------\
-0xffffd218  |callers'ebp | 
+0xffffd1f8  |callers'ebp | 
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <- arg1
+0xffffd1e4  |     4      | <- arg1
             |------------|
-0xffffd200  |     2      | <- arg0
+0xffffd1e0  |     2      | <- arg0
             |------------|
-0xffffd1fc  |return addr | <- points to the next instruction in main
+0xffffd1dc  |return addr | <- points to the next instruction in main
             |------------|
-0xffffd1f8  | main's ebp | <- ebp, esp
+0xffffd1d8  | main's ebp | <- ebp, esp
             |------------|
 
 
@@ -768,21 +768,21 @@ end
 # pop ebp
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp
+0xffffd1f8  |callers'ebp | <- ebp
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <- arg1
+0xffffd1e4  |     4      | <- arg1
             |------------|
-0xffffd200  |     2      | <- arg0
+0xffffd1e0  |     2      | <- arg0
             |------------|
-0xffffd1fc  |return addr | <- esp, points to the next instruction in main
+0xffffd1dc  |return addr | <- esp, points to the next instruction in main
             |------------|
 
 
@@ -836,19 +836,19 @@ end
 # ret
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp
+0xffffd1f8  |callers'ebp | <- ebp
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | 
+0xffffd1e8  |            | 
             |------------|
-0xffffd204  |     4      | <- arg1
+0xffffd1e4  |     4      | <- arg1
             |------------|
-0xffffd200  |     2      | <- esp, arg0
+0xffffd1e0  |     2      | <- esp, arg0
             |------------|
 
 
@@ -903,15 +903,15 @@ end
 - note values aren't actually removed from memory
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp
+0xffffd1f8  |callers'ebp | <- ebp
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |            | 
+0xffffd1ec  |            | 
             |------------|
-0xffffd208  |            | <- esp
+0xffffd1e8  |            | <- esp
             |------------|
 
 
@@ -966,15 +966,15 @@ end
 # mov [ebp-0xc], eax
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp
+0xffffd1f8  |callers'ebp | <- ebp
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |     6      | ; int c = foo(a,b)
+0xffffd1ec  |     6      | ; int c = foo(a,b)
             |------------|
-0xffffd208  |            | <- esp
+0xffffd1e8  |            | <- esp
             |------------|
 
 
@@ -1027,15 +1027,15 @@ end
 # mov eax, [ebp-0xc]
 
             /------------\
-0xffffd218  |callers'ebp | <- ebp
+0xffffd1f8  |callers'ebp | <- ebp
             |------------|
-0xffffd214  | int a = 2  | 
+0xffffd1f4  | int a = 2  | 
             |------------|
-0xffffd210  | int b = 4  |
+0xffffd1f0  | int b = 4  |
             |------------|
-0xffffd20c  |     6      | ; int c = foo(a,b)
+0xffffd1ec  |     6      | ; int c = foo(a,b)
             |------------|
-0xffffd208  |            | <- esp
+0xffffd1e8  |            | <- esp
             |------------|
 
 
