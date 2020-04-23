@@ -1,0 +1,1100 @@
+# setup 
+
+set disassembly-flavor intel
+
+b main
+
+define hook-nexti
+x/i $eip
+end
+
+define hook-stop
+x/xw $esp
+x/i $eip
+end
+
+
+
+
+
+
+
+
+
+
+# b main in gdb
+
+- function prologue has already happened
+- saved ebp, created new frame, made space on stack
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp; bogus value for main
+            |------------|
+0xffffd214  |            | 
+            |------------|
+0xffffd210  |            |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | <- esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mov [ebp-0x4], 0x2
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp; bogus value for main
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  |            |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | <- esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mov [ebp-0x8], 0x4
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp; bogus value for main
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | <- esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# push [ebp-0x08]
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp; bogus value for main
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <- esp; arg1
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# push [ebp-0x04]
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp; bogus value for main
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <-  arg1
+            |------------|
+0xffffd200  |     2      | <- esp; arg0
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# call foo
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp; bogus value for main
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <-  arg1
+            |------------|
+0xffffd200  |     2      | <-  arg0
+            |------------|
+0xffffd1fc  |return addr | <- esp; points to the next instruction in main
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# push ebp
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp; bogus value for main
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <- arg1
+            |------------|
+0xffffd200  |     2      | <- arg0
+            |------------|
+0xffffd1fc  |return addr | <- points to the next instruction in main
+            |------------|
+0xffffd1f8  | main's ebp | <- esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mov ebp, esp
+
+            /------------\
+0xffffd218  |callers'ebp | 
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <- arg1
+            |------------|
+0xffffd200  |     2      | <- arg0
+            |------------|
+0xffffd1fc  |return addr | <- points to the next instruction in main
+            |------------|
+0xffffd1f8  | main's ebp | <- ebp, esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mov edx, [ebp+0x8]
+
+- no change to stack but
+- edx now contains arg1 (4)
+
+            /------------\
+0xffffd218  |callers'ebp | 
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <- arg1
+            |------------|
+0xffffd200  |     2      | <- arg0
+            |------------|
+0xffffd1fc  |return addr | <- points to the next instruction in main
+            |------------|
+0xffffd1f8  | main's ebp | <- ebp, esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mov eax, [ebp+0xc]
+
+- no change to stack but
+- eax now contains arg0 (2)
+
+            /------------\
+0xffffd218  |callers'ebp | 
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <- arg1
+            |------------|
+0xffffd200  |     2      | <- arg0
+            |------------|
+0xffffd1fc  |return addr | <- points to the next instruction in main
+            |------------|
+0xffffd1f8  | main's ebp | <- ebp, esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# add eax, edx
+
+- no change to stack but
+- eax now contains eax+edx (6)
+
+            /------------\
+0xffffd218  |callers'ebp | 
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <- arg1
+            |------------|
+0xffffd200  |     2      | <- arg0
+            |------------|
+0xffffd1fc  |return addr | <- points to the next instruction in main
+            |------------|
+0xffffd1f8  | main's ebp | <- ebp, esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# pop ebp
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <- arg1
+            |------------|
+0xffffd200  |     2      | <- arg0
+            |------------|
+0xffffd1fc  |return addr | <- esp, points to the next instruction in main
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ret
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | 
+            |------------|
+0xffffd204  |     4      | <- arg1
+            |------------|
+0xffffd200  |     2      | <- esp, arg0
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# add esp, 0x8
+
+- note values aren't actually removed from memory
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |            | 
+            |------------|
+0xffffd208  |            | <- esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mov [ebp-0xc], eax
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |    6       | ; int c = foo(a,b)
+            |------------|
+0xffffd208  |            | <- esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# mov eax, [ebp-0xc]
+
+            /------------\
+0xffffd218  |callers'ebp | <- ebp
+            |------------|
+0xffffd214  | int a = 2  | 
+            |------------|
+0xffffd210  | int b = 4  |
+            |------------|
+0xffffd20c  |     6      | ; int c = foo(a,b)
+            |------------|
+0xffffd208  |            | <- esp
+            |------------|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# leave
+
+- a shortcut for
+- mov esp, ebp
+- pop ebp
+- which cleans up mains stack frame
+
+            /------------\
+0xffffd21c  |return addr | <- esp
+
+
+# ret
+- essentially a pop eip
