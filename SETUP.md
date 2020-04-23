@@ -11,3 +11,7 @@
 `exec setarch linux32 -R /bin/bash`
 * less safe is to turn it off for the os:
 `echo 0 | sudo tee /proc/sys/kernel/randomize_va_space`
+
+- programs can be compiled with
+`make`
+- This runs the commands specified in the make file
