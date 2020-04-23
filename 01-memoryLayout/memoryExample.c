@@ -9,13 +9,14 @@ int main(int argc, char **argv)
     static int bssvar;
     int stackvar1 = 41;
     int stackvar2;
-    char * datavar = "Foobar";
 
+    char * datavar = "Foobar";
 
     char * heapbuffer = malloc(16);
 
     strncpy(heapbuffer, "Hello", 6);
 
+    printf("main is at %p\n", main);
     printf("globalvar is at %p and contains: %d\n", &globalvar, globalvar);
 
     printf("bssvar is at %p and contains: %d\n", &bssvar, bssvar);
